@@ -1,0 +1,2 @@
+# ya-analyzer
+Following through Yandex Guide on how to create async apps with Python with the purpose to remind myself how it is done
