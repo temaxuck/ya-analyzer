@@ -1,5 +1,6 @@
 aiohttp==3.9.3
 alembic==1.13.1
 asyncpgsa==0.27.1
-SQLAlchemy==2.0.25
+ConfigArgParse==1.7
 psycopg2-binary==2.9.9
+SQLAlchemy==2.0.25
