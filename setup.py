@@ -38,7 +38,7 @@ setup(
     extra_require={"dev": load_requirements("requirements.dev.txt")},
     entry_points={
         "console_scripts": [
-            "{0}-api = {0}.api.__main__:main".format(module_name),
+            "{0}-api = {0}.api.__main__:run_app".format(module_name),
             "{0}-db = {0}.db.__main__:main".format(module_name),
         ]
     },
