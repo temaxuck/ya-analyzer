@@ -10,8 +10,8 @@ def main():
     alembic = CommandLine()
     alembic.parser.add_argument(
         "--pg-url",
-        default=os.getenv("PG_URL", analyzer_cfg.DATABASE_URI),
-        help="PostgreSQL URL [env var: PG_URL]",
+        default=os.getenv("ANALYZER_PG_URL", analyzer_cfg.DATABASE_URI),
+        help="PostgreSQL URL [env var: ANALYZER_PG_URL]",
     )
 
     options = alembic.parser.parse_args()
