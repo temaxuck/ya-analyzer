@@ -5,6 +5,6 @@
 Entry Points:
 =============
 
-* analyzer.api
-* analyzer.db
+* analyzer-api
+* analyzer-db
 
