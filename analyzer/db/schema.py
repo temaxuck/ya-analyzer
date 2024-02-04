@@ -24,7 +24,7 @@ convention = {
     # check constraints naming
     "ck": "ck__%(table_name)s_%(constarint_name)s",
     # foreign key constraint naming
-    "fk": "fk__%(table_name)s_%(all_column_names)s_%(reffered_table_name)s",
+    "fk": "fk__%(table_name)s_%(all_column_names)s_%(referred_table_name)s",
     # primary key constraint naming
     "pk": "pk__%(table_name)s",
 }
