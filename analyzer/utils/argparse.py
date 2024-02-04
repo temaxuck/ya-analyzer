@@ -9,7 +9,7 @@ from yarl import URL
 from analyzer.config import Config
 
 
-def validate(type: Callable, constraint: Callable):
+def validate(type: Callable, constraint: Callable) -> Callable:
 
     def wrapper(value):
         try:
@@ -28,7 +28,7 @@ Type validation handlers:
 positive_int = validate(int, lambda x: x > 0)
 
 
-def get_arg_parser(cfg: Config = None):
+def get_arg_parser(cfg: Config = None) -> ArgumentParser:
 
     if cfg is None:
         cfg = Config()
@@ -78,7 +78,7 @@ def get_arg_parser(cfg: Config = None):
     return parser
 
 
-def clear_env(rule: Callable):
+def clear_env(rule: Callable) -> None:
     """
     Clear vulnerable environment variables such as database url connection
     """

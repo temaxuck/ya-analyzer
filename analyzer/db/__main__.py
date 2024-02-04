@@ -6,7 +6,7 @@ from pathlib import Path
 PROJECT_PATH = Path(__file__).parent.parent.resolve()
 
 
-def main():
+def main() -> None:
     alembic = CommandLine()
     alembic.parser.add_argument(
         "--pg-url",
