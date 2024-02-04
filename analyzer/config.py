@@ -1,5 +1,11 @@
 # Default Config
 class Config:
+    """
+    Default values for the app to start.
+
+    Parser from module analyzer.utils.arg_parse.get_arg_parser()
+    uses these values as default
+    """
 
     DEBUG = False
     TESTING = False
