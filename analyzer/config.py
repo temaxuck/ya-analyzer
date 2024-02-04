@@ -7,11 +7,20 @@ class Config:
     uses these values as default
     """
 
+    # app configuration variables
     DEBUG = False
     TESTING = False
 
-    DATABASE_URI = "postgresql://admin:admin@localhost/analyzer"
+    # API variables
     API_HOST = "0.0.0.0"
     API_PORT = 8080
 
+    # Database variables
+    DATABASE_URI = "postgresql://admin:admin@localhost/analyzer"
+
+    # env parser variables
     ENV_VAR_PREFIX = "ANALYZER_"
+    
+    # Logging variables
+    LOG_LEVEL = "info"
+    LOG_FORMAT = "color"
