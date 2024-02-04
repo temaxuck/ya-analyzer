@@ -1,4 +1,5 @@
 import os
+import pwd
 
 from argparse import ArgumentTypeError
 from aiomisc.log import LogFormat
@@ -44,12 +45,17 @@ def get_arg_parser(cfg: Config = None) -> ArgumentParser:
         default=cfg.API_HOST,
         help="IPv4/IPv6 address ANALYZER API server would listen on",
     )
-
     group.add_argument(
         "--api-port",
         default=cfg.API_PORT,
         type=positive_int,
         help="TCP port ANALYZER API server would listen on",
+    )
+    group.add_argument(
+        "--api-max-request-size",
+        default=cfg.MAX_REQUEST_SIZE,
+        type=positive_int,
+        help="Client's max allowed request size (bytes) that ANALYZER API would be able process",
     )
 
     group = parser.add_argument_group("PostgreSQL options")
