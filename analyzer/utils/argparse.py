@@ -45,6 +45,14 @@ def get_arg_parser(cfg: Config = None) -> ArgumentParser:
         default=cfg.API_HOST,
         help="IPv4/IPv6 address ANALYZER API server would listen on",
     )
+
+    parser.add_argument(
+        "--user",
+        required=False,
+        type=pwd.getpwnam,
+        help="Linux user to be the owner of the launched process. The user is suggested to be low-privelleged",
+    )
+
     group.add_argument(
         "--api-port",
         default=cfg.API_PORT,
