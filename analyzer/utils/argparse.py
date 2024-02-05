@@ -73,6 +73,18 @@ def get_arg_parser(cfg: Config = None) -> ArgumentParser:
         default=URL(cfg.DATABASE_URI),
         help="URL connection to the PostgreSQL database",
     )
+    group.add_argument(
+        "--pg-pool-min-size",
+        type=int,
+        default=cfg.DATABASE_PG_POOL_MIN_SIZE,
+        help="Minimum database async connections",
+    )
+    group.add_argument(
+        "--pg-pool-max-size",
+        type=int,
+        default=cfg.DATABASE_PG_POOL_MAX_SIZE,
+        help="Maximum database async connections",
+    )
 
     group = parser.add_argument_group("Logging options")
     group.add_argument(
