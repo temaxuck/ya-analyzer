@@ -40,7 +40,7 @@ def run_app() -> None:
     forklib.fork(os.cpu_count(), worker, auto_restart=True)
     """
 
-    app = init_app(args)
+    app = init_app(args, cfg)
     web.run_app(app, sock=sock)
 
     # Set current process owner to user provided by argparser
