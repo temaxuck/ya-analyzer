@@ -20,6 +20,8 @@ def validate(type: Callable, constraint: Callable) -> Callable:
         except ValueError:
             raise ArgumentTypeError(f"Couldn't typecast value {value} to type {type}")
 
+        return value
+
     return wrapper
 
 
@@ -38,14 +40,6 @@ def get_arg_parser(cfg: Config = None) -> ArgumentParser:
         auto_env_var_prefix=cfg.ENV_VAR_PREFIX,
         formatter_class=ArgumentDefaultsHelpFormatter,
     )
-
-    group = parser.add_argument_group("API options")
-    group.add_argument(
-        "--api-host",
-        default=cfg.API_HOST,
-        help="IPv4/IPv6 address ANALYZER API server would listen on",
-    )
-
     parser.add_argument(
         "--user",
         required=False,
@@ -53,6 +47,12 @@ def get_arg_parser(cfg: Config = None) -> ArgumentParser:
         help="Linux user to be the owner of the launched process. The user is suggested to be low-privelleged",
     )
 
+    group = parser.add_argument_group("API options")
+    group.add_argument(
+        "--api-host",
+        default=cfg.API_HOST,
+        help="IPv4/IPv6 address ANALYZER API server would listen on",
+    )
     group.add_argument(
         "--api-port",
         default=cfg.API_PORT,
