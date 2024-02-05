@@ -31,5 +31,6 @@ class Config:
     LOG_LEVEL = "info"
     LOG_FORMAT = "color"
 
-    # format variables
+    # validation variables
     BIRTH_DATE_FORMAT = "%d.%m.%Y"
+    MAX_CITIZEN_INSTANCES_WITHIN_IMPORT = 10_000
