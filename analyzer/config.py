@@ -28,3 +28,6 @@ class Config:
     # Logging variables
     LOG_LEVEL = "info"
     LOG_FORMAT = "color"
+
+    # format variables
+    BIRTH_DATE_FORMAT = "%d.%m.%Y"
