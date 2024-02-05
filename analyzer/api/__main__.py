@@ -24,6 +24,24 @@ def run_app() -> None:
 
     # allocate socket on behalf of super user
     sock = bind_socket(address=args.api_host, port=args.api_port, proto_name="http")
+    setproctitle(os.path.basename(sys.argv[0]))
+
+    """
+    # To add more workers, use snippet:
+    # Do `pip install forklib`
+    # Add forklib to requirements.txt
+    import forklib
+    
+    def worker():
+        setproctitle(f"[Worker] {os.path.basename(sys.argv[0])}")
+        app = init_app(args)
+        web.run_app(app, sock=sock)
+        
+    forklib.fork(os.cpu_count(), worker, auto_restart=True)
+    """
+
+    app = init_app(args)
+    web.run_app(app, sock=sock)
 
     # Set current process owner to user provided by argparser
     # It is suggested for current user to be low-privelleged for safety reasons
@@ -31,11 +49,6 @@ def run_app() -> None:
         logging.info(f"Changing user to {args.user.pw_name}")
         os.setgid(args.user.pw_gid)
         os.setuid(args.user.pw_uid)
-
-    setproctitle(os.path.basename(sys.argv[0]))
-
-    app = init_app(args)
-    web.run_app(app, sock=sock)
 
 
 if __name__ == "__main__":
