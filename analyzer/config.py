@@ -21,7 +21,6 @@ class Config:
 
     # Database variables
     DATABASE_URI = "postgresql://admin:admin@localhost/analyzer"
-    DATABASE_MAX_QUERY_ARGS = 32767
     DATABASE_PG_POOL_MIN_SIZE = 10
     DATABASE_PG_POOL_MAX_SIZE = 10
 

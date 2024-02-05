@@ -5,7 +5,9 @@ from asyncpgsa import PG
 from configargparse import Namespace
 
 logger = logging.getLogger(__name__)
+
 CENSORED = "***"
+MAX_QUERY_ARGS = 32767
 
 
 async def setup_pg(app: web.Application, args: Namespace):
