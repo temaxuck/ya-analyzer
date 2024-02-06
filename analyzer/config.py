@@ -34,3 +34,7 @@ class Config:
     # validation variables
     BIRTH_DATE_FORMAT = "%d.%m.%Y"
     MAX_CITIZEN_INSTANCES_WITHIN_IMPORT = 10_000
+
+
+class DebugConfig(Config):
+    DEBUG = True
