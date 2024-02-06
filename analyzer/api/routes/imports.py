@@ -56,15 +56,7 @@ class ImportsView(BaseView):
     @request_schema(ImportSchema())
     @response_schema(ImportResponseSchema(), code=HTTPStatus.CREATED.value)
     async def post(self):
-        body = await self.request.json()
-        schema = ImportSchema()
-        try:
-            data = schema.load(body)
-        except ValidationError as e:
-            return web.json_response(
-                data={"error": str(e)}, status=HTTPStatus.BAD_REQUEST
-            )
-
+        data = await self.request.json()
         async with self.pg.acquire() as conn:
             async with conn.cursor() as cur:
                 async with cur.begin() as transaction:
