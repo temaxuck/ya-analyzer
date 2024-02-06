@@ -3,12 +3,11 @@
 """
 
 from aiohttp import web
-from asyncpgsa import PG
 
 
 class BaseView(web.View):
     URL_PATH: str
 
     @property
-    def pg(self) -> PG:
+    def pg(self) -> "Pool":
         return self.request.app["pg"]

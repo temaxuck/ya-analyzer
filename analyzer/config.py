@@ -20,7 +20,7 @@ class Config:
     MAX_REQUEST_SIZE = 64 * MEGABYTE
 
     # Database variables
-    DATABASE_URI = "postgresql://admin:admin@localhost/analyzer"
+    DATABASE_URI = "postgresql://admin:admin@localhost:5432/analyzer"
     DATABASE_PG_POOL_MIN_SIZE = 10
     DATABASE_PG_POOL_MAX_SIZE = 10
 

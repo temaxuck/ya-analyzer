@@ -1,7 +1,8 @@
 aiohttp==3.9.3
+aiohttp-apispec==2.2.3
+aiopg==1.4.0
 aiomisc==17.3.41
 alembic==1.13.1
-asyncpgsa==0.27.1
 ConfigArgParse==1.7
 marshmallow==3.20.2
 psycopg2-binary==2.9.9
