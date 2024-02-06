@@ -12,8 +12,6 @@ async def get_next_num(request: web.Request) -> web.Response:
     return web.Response(text=f"Next number for number {num} is: {num + 1}")
 """
 
-ROUTES = tuple()
+from .imports import ImportsView
 
-# from .imports import ImportsView
-
-# ROUTES = (ImportsView,)
+ROUTES = (ImportsView,)
