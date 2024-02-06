@@ -16,8 +16,8 @@ def init_app(args: Namespace, cfg: Config) -> web.Application:
     """
 
     app = web.Application(client_max_size=args.api_max_request_size)
-    app.cleanup_ctx.append(lambda _: setup_pg(app, args=args))
     app["config"] = cfg
+    app.cleanup_ctx.append(lambda _: setup_pg(app, args=args))
 
     for route in ROUTES:
         logger.debug(f"Registering route {route} as {route.URL_PATH}")
