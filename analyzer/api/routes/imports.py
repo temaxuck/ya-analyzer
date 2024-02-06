@@ -81,7 +81,7 @@ class ImportsView(BaseView):
 
                         citizen_insert_query = """
                         INSERT INTO citizen (import_id, citizen_id, name, birth_date, gender, town, street, building, apartment)
-                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                        VALUES (%s, %s, %s, TO_DATE(%s, 'DD.MM.YYYY'), %s, %s, %s, %s, %s)
                         """
 
                         relation_insert_query = """
