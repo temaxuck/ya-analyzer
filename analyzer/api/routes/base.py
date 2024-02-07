@@ -4,6 +4,8 @@
 
 from aiohttp import web
 
+from analyzer.db.schema import import_table
+
 
 class BaseView(web.View):
     URL_PATH: str
@@ -22,15 +24,12 @@ class BaseImportView(BaseView):
     def import_id(self) -> int:
         return int(self.request.match_info.get("import_id"))
 
-    async def check_if_import_exists(self) -> bool:
+    async def check_if_import_exists(self) -> None:
         async with self.pg.acquire() as conn:
-            async with conn.cursor() as cur:
-                await cur.execute(
-                    "SELECT import_id FROM import WHERE import_id=%s", self.import_id
-                )
-                import_id = await cur.fetchone()
+            result = await conn.execute(
+                import_table.select().where(import_table.c.import_id == self.import_id)
+            )
+            import_id = await result.scalar()
 
-                if not import_id:
-                    raise web.HTTPNotFound()
-
-        return True
+            if not import_id:
+                raise web.HTTPNotFound()
