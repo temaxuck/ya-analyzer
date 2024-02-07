@@ -58,17 +58,17 @@ class SelectQuery(AsyncIterable):
         query: Select,
         conn: SAConnection,
         prefetch: int = None,
-        timeout: float = None,
+        timeout_ms: int = None,
     ):
         self.query = query
         self.conn = conn
         self.prefetch = prefetch or self.PREFETCH
-
-        # TODO: Implement transaction timeout
-        self.timeout = timeout
+        self.timeout_ms = timeout_ms
 
     async def __aiter__(self):
         async with self.conn.begin() as transaction:
+            if self.timeout_ms is not None:
+                await self.conn.execute(f"SET statement_timeout = {self.timeout_ms}")
             async with self.conn.execute(self.query) as cur:
                 while True:
                     rows = await cur.fetchmany(self.prefetch)
