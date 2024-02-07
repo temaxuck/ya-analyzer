@@ -1,9 +1,10 @@
 import logging
 
-from aiopg.sa import create_engine
-
 from aiohttp import web
+from aiopg.sa import create_engine, SAConnection
+from collections import AsyncIterable
 from configargparse import Namespace
+from sqlalchemy.sql import Select
 
 logger = logging.getLogger(__name__)
 
@@ -40,3 +41,38 @@ async def setup_pg(app: web.Application, args: Namespace):
         engine.close()
         await engine.wait_closed()
         logger.info(f"Disconnected from database: {db_info}")
+
+
+class SelectQuery(AsyncIterable):
+    """
+    Used to send data from PostgreSQL straight to the client
+    after recieving it, in parts, without buffering all data
+    """
+
+    PREFETCH = 500
+
+    __slots__ = ("query", "conn", "prefetch", "timeout")
+
+    def __init__(
+        self,
+        query: Select,
+        conn: SAConnection,
+        prefetch: int = None,
+        timeout: float = None,
+    ):
+        self.query = query
+        self.conn = conn
+        self.prefetch = prefetch or self.PREFETCH
+
+        # TODO: Implement transaction timeout
+        self.timeout = timeout
+
+    async def __aiter__(self):
+        async with self.conn.begin() as transaction:
+            async with self.conn.execute(self.query) as cur:
+                while True:
+                    rows = await cur.fetchmany(self.prefetch)
+                    if not rows:
+                        break
+                    for row in rows:
+                        yield row
