@@ -3,6 +3,9 @@
 """
 
 from aiohttp import web
+from sqlalchemy.sql import Select
+from sqlalchemy import select, func, and_
+from analyzer.db.schema import citizen_table, relation_table
 
 from analyzer.db.schema import import_table
 
@@ -33,3 +36,38 @@ class BaseImportView(BaseView):
 
             if not import_id:
                 raise web.HTTPNotFound()
+
+
+class BaseCitizenView(BaseImportView):
+    @property
+    def CITIZENS_QUERY(self) -> Select:
+        return (
+            select(
+                [
+                    citizen_table.c.citizen_id,
+                    citizen_table.c.name,
+                    citizen_table.c.birth_date,
+                    citizen_table.c.gender,
+                    citizen_table.c.town,
+                    citizen_table.c.street,
+                    citizen_table.c.building,
+                    citizen_table.c.apartment,
+                    func.array_remove(
+                        func.array_agg(relation_table.c.relative_id), None
+                    ).label("relatives"),
+                ]
+            )
+            .select_from(
+                citizen_table.outerjoin(
+                    relation_table,
+                    and_(
+                        citizen_table.c.import_id == relation_table.c.import_id,
+                        citizen_table.c.citizen_id == relation_table.c.citizen_id,
+                    ),
+                )
+            )
+            .group_by(
+                citizen_table.c.import_id,
+                citizen_table.c.citizen_id,
+            )
+        )
