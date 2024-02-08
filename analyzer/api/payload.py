@@ -3,6 +3,7 @@ import json
 from aiohttp import Payload
 from aiohttp.payload import JsonPayload as BaseJsonPayload
 from aiohttp.typedefs import JSONEncoder
+from aiopg.sa.result import RowProxy
 from datetime import date
 from functools import singledispatch, partial
 from typing import Any
@@ -16,11 +17,11 @@ def convert(value: Any) -> Any:
 
 
 @convert.register(date)
-def convert_date(value: date) -> date:
+def convert_date(value: date) -> str:
     return value.strftime(Config.BIRTH_DATE_FORMAT)
 
 
-dumps = partial(json.dumps, default=convert)
+dumps = partial(json.dumps, default=convert, ensure_ascii=False)
 
 
 class JsonPayload(BaseJsonPayload):

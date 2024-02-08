@@ -13,5 +13,6 @@ async def get_next_num(request: web.Request) -> web.Response:
 """
 
 from .imports import ImportsView
+from .citizens import CitizensView
 
-ROUTES = (ImportsView,)
+ROUTES = (ImportsView, CitizensView)

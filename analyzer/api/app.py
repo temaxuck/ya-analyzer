@@ -45,10 +45,11 @@ def init_app(args: Namespace, cfg: Config) -> web.Application:
         error_callback=handle_validation_error,
     )
 
+    # Can't figure out why this doesn't register the AsyncIterable
     PAYLOAD_REGISTRY.register(
         AsyncGenJsonListPayload,
         (AsyncGeneratorType, AsyncIterable),
     )
-    PAYLOAD_REGISTRY.register(JsonPayload, (Mapping, MappingProxyType, date))
+    PAYLOAD_REGISTRY.register(JsonPayload, (Mapping, MappingProxyType))
 
     return app
