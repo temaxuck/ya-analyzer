@@ -6,7 +6,7 @@ from http import HTTPStatus
 from typing import Generator
 from sqlalchemy import insert
 
-from analyzer.api.schema import ImportSchema, ImportResponseSchema
+from analyzer.api.schema import ImportsSchema, ImportsResponseSchema
 from analyzer.db.schema import citizen_table, relation_table, import_table
 from analyzer.utils.pg import MAX_QUERY_ARGS
 
@@ -62,8 +62,8 @@ class ImportsView(BaseView):
                 }
 
     @docs(summary="Add import with citizens info")
-    @request_schema(ImportSchema())
-    @response_schema(ImportResponseSchema(), code=HTTPStatus.CREATED.value)
+    @request_schema(ImportsSchema())
+    @response_schema(ImportsResponseSchema(), code=HTTPStatus.CREATED.value)
     async def post(self):
         data = await self.request.json()
         async with self.pg.acquire() as conn:

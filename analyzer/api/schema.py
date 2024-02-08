@@ -41,7 +41,11 @@ class CitizenSchema(PatchCitizenSchema):
     relatives = List(Int(validate=Range(min=0), strict=True), required=True)
 
 
-class ImportSchema(Schema):
+class CitizensResponseSchema(Schema):
+    data = Nested(CitizenSchema(), required=True)
+
+
+class ImportsSchema(Schema):
     citizens = Nested(
         CitizenSchema,
         many=True,
@@ -74,9 +78,9 @@ class ImportSchema(Schema):
                     )
 
 
-class ImportIdSchema(Schema):
+class ImportsIdSchema(Schema):
     import_id = Int(validate=Range(min=0), strict=True, required=True)
 
 
-class ImportResponseSchema(Schema):
-    data = Nested(ImportIdSchema(), required=True)
+class ImportsResponseSchema(Schema):
+    data = Nested(ImportsIdSchema(), required=True)
