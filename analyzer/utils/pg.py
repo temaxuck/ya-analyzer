@@ -51,7 +51,7 @@ class SelectQuery(AsyncIterable):
 
     PREFETCH = 500
 
-    __slots__ = ("query", "conn", "prefetch", "timeout")
+    __slots__ = ("query", "conn", "prefetch", "timeout_ms")
 
     def __init__(
         self,
