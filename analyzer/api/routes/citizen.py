@@ -5,13 +5,14 @@ from aiohttp import web
 from aiohttp.web_exceptions import HTTPNotFound
 from aiohttp_apispec import docs, request_schema, response_schema
 from aiopg.sa import SAConnection
+from datetime import date, datetime
 from aiopg.sa.result import RowProxy
 from marshmallow import ValidationError
 from sqlalchemy import and_, or_
 from typing import List
 
 from analyzer.api.schema import PatchCitizenSchema, PatchCitizenResponseSchema
-from analyzer.db.schema import citizen_table, import_table, relation_table
+from analyzer.db.schema import citizen_table, relation_table
 from .base import BaseCitizenView
 
 
@@ -24,6 +25,10 @@ class CitizenView(BaseCitizenView):
     @property
     def citizen_id(self):
         return int(self.request.match_info.get("citizen_id"))
+
+    @classmethod
+    def convert_client_date(cls, date: date) -> datetime:
+        return datetime.strptime(date, "%d.%m.%Y").strftime("%Y-%m-%d")
 
     async def acquire_lock(self, conn: SAConnection, import_id: int) -> None:
         await conn.execute("SELECT pg_advisory_xact_lock(%s)", (import_id,))
@@ -53,6 +58,9 @@ class CitizenView(BaseCitizenView):
         data: dict,
     ) -> None:
         values = {k: v for k, v in data.items() if k != "relatives"}
+
+        if "birth_date" in values:
+            values["birth_date"] = self.convert_client_date(values["birth_date"])
 
         if values:
             query = (
