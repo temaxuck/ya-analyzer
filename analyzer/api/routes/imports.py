@@ -68,36 +68,27 @@ class ImportsView(BaseView):
         data = await self.request.json()
         async with self.pg.acquire() as conn:
             async with conn.begin() as transaction:
-                try:
-                    result = await conn.execute(
-                        import_table.insert()
-                        .values()
-                        .returning(import_table.c.import_id)
-                    )
-                    import_id = await result.scalar()
+                result = await conn.execute(
+                    import_table.insert().values().returning(import_table.c.import_id)
+                )
+                import_id = await result.scalar()
 
-                    citizens = data.get("citizens")
-                    citizen_rows = self.make_citizen_table_rows(citizens, import_id)
-                    relation_rows = self.make_relation_table_rows(citizens, import_id)
+                citizens = data.get("citizens")
+                citizen_rows = self.make_citizen_table_rows(citizens, import_id)
+                relation_rows = self.make_relation_table_rows(citizens, import_id)
 
-                    chunked_citizen_rows = chunk_list(
-                        citizen_rows, self.MAX_CITIZENS_PER_INSERT
-                    )
-                    chunked_relation_rows = chunk_list(
-                        relation_rows, self.MAX_RELATIONS_PER_INSERT
-                    )
+                chunked_citizen_rows = chunk_list(
+                    citizen_rows, self.MAX_CITIZENS_PER_INSERT
+                )
+                chunked_relation_rows = chunk_list(
+                    relation_rows, self.MAX_RELATIONS_PER_INSERT
+                )
 
-                    for chunk in chunked_citizen_rows:
-                        await conn.execute(insert(citizen_table).values(chunk))
+                for chunk in chunked_citizen_rows:
+                    await conn.execute(insert(citizen_table).values(chunk))
 
-                    for chunk in chunked_relation_rows:
-                        await conn.execute(insert(relation_table).values(chunk))
-
-                except Exception as e:
-                    raise e
-                    return web.json_response(
-                        data={"error": str(e)}, status=HTTPStatus.BAD_REQUEST
-                    )
+                for chunk in chunked_relation_rows:
+                    await conn.execute(insert(relation_table).values(chunk))
 
         return web.json_response(
             data={"data": {"import_id": import_id}}, status=HTTPStatus.CREATED
