@@ -1,3 +1,20 @@
 #!/bin/bash
-source venv/bin/activate
+
+# Load python virtual environment to your current shell.
+# Use `source` to load the virtual environment to your current shell.
+# 
+# Options:
+#   venv_name - name of the created virtal environment ('venv' by default)
+# 
+# Usage:
+#   `source ./activate [venv_name]`
+
+venv_name=${1:-venv}
+
+if [ ! -d '$venv_name' ]
+then
+    python3 -m venv $venv_name
+fi
+
+source $venv_name/bin/activate
 clear
