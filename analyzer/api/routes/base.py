@@ -3,11 +3,12 @@
 """
 
 from aiohttp import web
+from aiopg.sa.result import RowProxy
+from datetime import date
 from sqlalchemy.sql import Select
 from sqlalchemy import select, func, and_
-from analyzer.db.schema import citizen_table, relation_table
 
-from analyzer.db.schema import import_table
+from analyzer.db.schema import citizen_table, relation_table, import_table, Gender
 
 
 class BaseView(web.View):
@@ -39,6 +40,18 @@ class BaseImportView(BaseView):
 
 
 class BaseCitizenView(BaseImportView):
+
+    def serialize_row(self, row: RowProxy) -> dict:
+        row = dict(row)
+
+        for k, v in row.items():
+            if isinstance(v, date):
+                row[k] = v.strftime(self.app["config"].BIRTH_DATE_FORMAT)
+            if isinstance(v, Gender):
+                row[k] = v.value
+
+        return row
+
     @property
     def CITIZENS_QUERY(self) -> Select:
         return (
