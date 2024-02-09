@@ -1,7 +1,7 @@
 from aiohttp import web
 from aiohttp_apispec import docs, request_schema, response_schema
 from aiomisc import chunk_list
-from datetime import datetime
+from datetime import datetime, date
 from http import HTTPStatus
 from typing import Generator
 from sqlalchemy import insert
@@ -20,11 +20,11 @@ class ImportsView(BaseView):
     MAX_RELATIONS_PER_INSERT = MAX_QUERY_ARGS // len(relation_table.columns)
 
     @classmethod
-    def convert_client_date(cls, date):
+    def convert_client_date(cls, date: date) -> datetime:
         return datetime.strptime(date, "%d.%m.%Y").strftime("%Y-%m-%d")
 
     @classmethod
-    def make_citizen_table_rows(cls, citizens, import_id) -> Generator:
+    def make_citizen_table_rows(cls, citizens: dict, import_id: int) -> Generator:
         """
         Generate rows to insert into `citizen_table` lazy.
 
@@ -48,7 +48,7 @@ class ImportsView(BaseView):
             }
 
     @classmethod
-    def make_relation_table_rows(cls, citizens, import_id) -> Generator:
+    def make_relation_table_rows(cls, citizens: dict, import_id: int) -> Generator:
         """
         Generate rows to insert into `relation_table` lazy.
         """
