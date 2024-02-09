@@ -5,6 +5,7 @@
 from aiohttp import web
 from aiopg.sa.result import RowProxy
 from datetime import date
+from decimal import Decimal
 from sqlalchemy.sql import Select
 from sqlalchemy import select, func, and_
 
@@ -49,6 +50,8 @@ class BaseCitizenView(BaseImportView):
                 row[k] = v.strftime(self.app["config"].BIRTH_DATE_FORMAT)
             if isinstance(v, Gender):
                 row[k] = v.value
+            if isinstance(v, Decimal):
+                row[k] = float(v)
 
         return row
 

@@ -5,11 +5,17 @@ from aiopg.sa import create_engine, SAConnection
 from collections import AsyncIterable
 from configargparse import Namespace
 from sqlalchemy.sql import Select
+from sqlalchemy.sql.functions import Function
+from sqlalchemy import Column, Numeric, cast, func
 
 logger = logging.getLogger(__name__)
 
 CENSORED = "*****"
 MAX_QUERY_ARGS = 32767
+
+
+def rounded(column: Column, fraction: int = 2) -> Function:
+    return func.round(cast(column, Numeric), fraction)
 
 
 async def setup_pg(app: web.Application, args: Namespace):

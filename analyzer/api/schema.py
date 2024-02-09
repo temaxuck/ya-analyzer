@@ -1,7 +1,7 @@
 from datetime import date
 
 from marshmallow import Schema, validates, ValidationError, validates_schema
-from marshmallow.fields import Str, Int, Date, List, Nested
+from marshmallow.fields import Str, Int, Float, Date, List, Nested
 from marshmallow.validate import Length, OneOf, Range
 
 from analyzer.config import Config
@@ -108,3 +108,14 @@ CitizenPresentsByMonthSchema = type(
 
 class CitizenPresentsResponseView(Schema):
     data = Nested(CitizenPresentsByMonthSchema(), required=True)
+
+
+class AgeStatsSchema(Schema):
+    city = Str(validate=Length(min=1, max=256), required=True)
+    p50 = Float(validate=Range(min=0), required=True)
+    p75 = Float(validate=Range(min=0), required=True)
+    p99 = Float(validate=Range(min=0), required=True)
+
+
+class AgeStatsResponseSchema(Schema):
+    data = Nested(AgeStatsSchema(many=True), required=True)
