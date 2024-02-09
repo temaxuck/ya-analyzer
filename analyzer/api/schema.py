@@ -42,6 +42,10 @@ class CitizenSchema(PatchCitizenSchema):
 
 
 class CitizensResponseSchema(Schema):
+    data = Nested(CitizenSchema(many=True), required=True)
+
+
+class PatchCitizenResponseSchema(Schema):
     data = Nested(CitizenSchema(), required=True)
 
 
