@@ -8,7 +8,7 @@ from analyzer.config import Config
 from analyzer.db.schema import Gender
 
 
-class PatchCitizenSchema(Schema):
+class BaseCitizenSchema(Schema):
     name = Str(validate=Length(min=1, max=256))
     gender = Str(validate=OneOf([gender.value for gender in Gender]))
     birth_date = Date(format=Config.BIRTH_DATE_FORMAT)
@@ -29,7 +29,7 @@ class PatchCitizenSchema(Schema):
             raise ValidationError("relatives ids must be unique values")
 
 
-class CitizenSchema(PatchCitizenSchema):
+class CitizenSchema(BaseCitizenSchema):
     citizen_id = Int(validate=Range(min=0), strict=True, required=True)
     name = Str(validate=Length(min=1, max=256), required=True)
     gender = Str(validate=OneOf([gender.value for gender in Gender]), required=True)
@@ -43,6 +43,10 @@ class CitizenSchema(PatchCitizenSchema):
 
 class CitizensResponseSchema(Schema):
     data = Nested(CitizenSchema(many=True), required=True)
+
+
+class PatchCitizenSchema(Schema):
+    data = Nested(BaseCitizenSchema(), required=True)
 
 
 class PatchCitizenResponseSchema(Schema):
