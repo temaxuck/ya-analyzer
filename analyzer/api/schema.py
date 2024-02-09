@@ -92,3 +92,19 @@ class ImportsIdSchema(Schema):
 
 class ImportsResponseSchema(Schema):
     data = Nested(ImportsIdSchema(), required=True)
+
+
+class PresentsSchema(Schema):
+    citizen_id = Int(validate=Range(min=0), strict=True, required=True)
+    presents = Int(validate=Range(min=0), strict=True, required=True)
+
+
+CitizenPresentsByMonthSchema = type(
+    "CitizenPresentsByMonthSchema",
+    (Schema,),
+    {str(i): Nested(PresentsSchema(many=True), required=True) for i in range(1, 13)},
+)
+
+
+class CitizenPresentsResponseView(Schema):
+    data = Nested(CitizenPresentsByMonthSchema(), required=True)

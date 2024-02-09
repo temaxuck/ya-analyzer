@@ -15,5 +15,11 @@ async def get_next_num(request: web.Request) -> web.Response:
 from .imports import ImportsView
 from .citizens import CitizensView
 from .citizen import CitizenView
+from .citizen_birthdays import CitizenPresentsView
 
-ROUTES = (ImportsView, CitizensView, CitizenView)
+ROUTES = (
+    ImportsView,
+    CitizensView,
+    CitizenView,
+    CitizenPresentsView,
+)
