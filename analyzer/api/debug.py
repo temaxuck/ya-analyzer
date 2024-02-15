@@ -1,9 +1,7 @@
-import logging
 import os
 import sys
 
 from aiohttp import web
-from aiomisc import bind_socket
 from setproctitle import setproctitle
 
 from analyzer.api.app import init_app

@@ -173,7 +173,7 @@ class CitizenView(BaseCitizenView):
     async def patch(self):
         data = await self.request.json()
         async with self.pg.acquire() as conn:
-            async with conn.begin() as transaction:
+            async with conn.begin() as _:
 
                 # set advisory lock for the transaction isolation
                 # so another transaction would wait until this transaction proceeds

@@ -11,9 +11,9 @@ __license__ = "No license"
 
 
 __all__ = [
-    '__author__',
-    '__maintainer__',
-    '__email__',
-    '__version__',
-    '__license__',
+    "__author__",
+    "__maintainer__",
+    "__email__",
+    "__version__",
+    "__license__",
 ]

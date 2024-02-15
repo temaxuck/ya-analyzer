@@ -3,6 +3,7 @@
 """
 
 from aiohttp import web
+from aiopg import Pool
 from aiopg.sa.result import RowProxy
 from datetime import date
 from decimal import Decimal
@@ -20,7 +21,7 @@ class BaseView(web.View):
         return self.request.app
 
     @property
-    def pg(self) -> "Pool":
+    def pg(self) -> Pool:
         return self.request.app["pg"]
 
 

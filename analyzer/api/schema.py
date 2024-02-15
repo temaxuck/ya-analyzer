@@ -106,12 +106,12 @@ CitizenPresentsByMonthSchema = type(
 )
 
 
-class CitizenPresentsResponseView(Schema):
+class CitizenPresentsResponseSchema(Schema):
     data = Nested(CitizenPresentsByMonthSchema(), required=True)
 
 
 class AgeStatsSchema(Schema):
-    city = Str(validate=Length(min=1, max=256), required=True)
+    town = Str(validate=Length(min=1, max=256), required=True)
     p50 = Float(validate=Range(min=0), required=True)
     p75 = Float(validate=Range(min=0), required=True)
     p99 = Float(validate=Range(min=0), required=True)

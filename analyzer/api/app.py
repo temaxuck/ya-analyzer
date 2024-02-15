@@ -2,7 +2,6 @@ import logging
 
 from aiohttp import web, PAYLOAD_REGISTRY
 from aiohttp_apispec import setup_aiohttp_apispec, validation_middleware
-from datetime import date
 from configargparse import Namespace
 from types import AsyncGeneratorType, MappingProxyType
 from typing import AsyncIterable, Mapping

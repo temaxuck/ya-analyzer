@@ -31,12 +31,12 @@ def run_app() -> None:
     # Do `pip install forklib`
     # Add forklib to requirements.txt
     import forklib
-    
+
     def worker():
         setproctitle(f"[Worker] {os.path.basename(sys.argv[0])}")
         app = init_app(args)
         web.run_app(app, sock=sock)
-        
+
     forklib.fork(os.cpu_count(), worker, auto_restart=True)
     """
 

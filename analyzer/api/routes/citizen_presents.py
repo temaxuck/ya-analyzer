@@ -4,7 +4,7 @@ from itertools import groupby
 from http import HTTPStatus
 from sqlalchemy import Integer, cast, func, select, and_
 
-from analyzer.api.schema import CitizenPresentsResponseView
+from analyzer.api.schema import CitizenPresentsResponseSchema
 from analyzer.db.schema import citizen_table, relation_table
 from .base import BaseCitizenView
 
@@ -13,7 +13,7 @@ class CitizenPresentsView(BaseCitizenView):
     URL_PATH = r"/imports/{import_id:\d+}/citizens/presents"
 
     @docs(summary="Get data about how many presents do citizens buy each month")
-    @response_schema(CitizenPresentsResponseView(), code=HTTPStatus.OK.value)
+    @response_schema(CitizenPresentsResponseSchema(), code=HTTPStatus.OK.value)
     async def get(self):
         await self.check_if_import_exists()
 

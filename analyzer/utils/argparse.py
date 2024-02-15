@@ -44,7 +44,10 @@ def get_arg_parser(cfg: Config = None) -> ArgumentParser:
         "--user",
         required=False,
         type=pwd.getpwnam,
-        help="Linux user to be the owner of the launched process. The user is suggested to be low-privelleged",
+        help=(
+            "Linux user to be the owner of the launched process."
+            "The user is suggested to be low-privelleged"
+        ),
     )
 
     group = parser.add_argument_group("API options")

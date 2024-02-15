@@ -38,3 +38,8 @@ class Config:
 
 class DebugConfig(Config):
     DEBUG = True
+
+
+class TestConfig(Config):
+    TESTING = True
+    DATABASE_URI = "postgresql://admin:admin@localhost:5432/analyzer"

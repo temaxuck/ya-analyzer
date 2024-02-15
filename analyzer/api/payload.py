@@ -3,7 +3,6 @@ import json
 from aiohttp import Payload
 from aiohttp.payload import JsonPayload as BaseJsonPayload
 from aiohttp.typedefs import JSONEncoder
-from aiopg.sa.result import RowProxy
 from datetime import date
 from functools import singledispatch, partial
 from typing import Any

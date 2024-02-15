@@ -67,7 +67,7 @@ class ImportsView(BaseView):
     async def post(self):
         data = await self.request.json()
         async with self.pg.acquire() as conn:
-            async with conn.begin() as transaction:
+            async with conn.begin() as _:
                 result = await conn.execute(
                     import_table.insert().values().returning(import_table.c.import_id)
                 )
